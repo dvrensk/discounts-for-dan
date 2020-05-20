@@ -34,4 +34,18 @@ describe Checkout do
       expect(checkout.total).to eq 8.11.to_d
     end
   end
+
+  context 'buy 1 get 1 free' do
+    let(:rules) { [Rules::BuyNGetMFree.new(1, 1, "GR1")] }
+
+    it 'sells 2 at the price of 1' do
+      2.times { checkout.scan("GR1") }
+      expect(checkout.total).to eq 3.11.to_d
+    end
+
+    it 'sells 5 at the price of 3' do
+      5.times { checkout.scan("GR1") }
+      expect(checkout.total).to eq(3.11.to_d * 3)
+    end
+  end
 end
