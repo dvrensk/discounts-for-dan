@@ -48,4 +48,18 @@ describe Checkout do
       expect(checkout.total).to eq(3.11.to_d * 3)
     end
   end
+
+  # * The COO, though, likes low prices and wants people buying
+  # strawberries to get a price discount for bulk purchases. If
+  # you buy 3 or more strawberries, the price should drop to £4.50
+  context 'bulk pricing' do
+    let(:rules) { [Rules::BulkPrice.new(3, 4.50.to_d, "SR1")] }
+
+    it 'starts bulk pricing at 3 units' do
+      2.times { checkout.scan("SR1") }
+      expect(checkout.total).to eq(5.00.to_d * 2)
+      1.times { checkout.scan("SR1") }
+      expect(checkout.total).to eq(4.50.to_d * 3)
+    end
+  end
 end
