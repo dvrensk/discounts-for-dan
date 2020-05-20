@@ -10,9 +10,18 @@ class Checkout
 
   def initialize(rules)
     @rules = rules
+    @scanned = []
   end
+
+  attr_reader :scanned
+  private :scanned
 
   def scan(code)
     CATALOG.fetch(code)
+    scanned << code
+  end
+
+  def total
+    scanned.sum { |code| CATALOG.fetch(code) }
   end
 end

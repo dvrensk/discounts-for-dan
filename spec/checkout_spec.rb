@@ -1,3 +1,5 @@
+require 'bigdecimal/util'
+
 describe Checkout do
 
   # | Product code | Name         | Price  |
@@ -22,6 +24,14 @@ describe Checkout do
 
     it 'complains about unknown codes' do
       expect { checkout.scan("XX1") }.to raise_error(KeyError)
+    end
+  end
+
+  describe '#total' do
+    it 'does addition' do
+      checkout.scan("GR1")
+      checkout.scan("SR1")
+      expect(checkout.total).to eq 8.11.to_d
     end
   end
 end
