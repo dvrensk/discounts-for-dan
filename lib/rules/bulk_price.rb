@@ -1,6 +1,6 @@
 module Rules
   class BulkPrice
-    def initialize(start_at, bulk_price, code)
+    def initialize(start_at:, bulk_price:, code:)
       @start_at, @bulk_price, @code = start_at, bulk_price, code.freeze
     end
 

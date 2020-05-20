@@ -36,7 +36,7 @@ describe Checkout do
   end
 
   context 'buy 1 get 1 free' do
-    let(:rules) { [Rules::BuyNGetMFree.new(1, 1, "GR1")] }
+    let(:rules) { [Rules::BuyNGetMFree.new(n: 1, m: 1, code: "GR1")] }
 
     it 'sells 2 at the price of 1' do
       2.times { checkout.scan("GR1") }
@@ -53,7 +53,7 @@ describe Checkout do
   # strawberries to get a price discount for bulk purchases. If
   # you buy 3 or more strawberries, the price should drop to £4.50
   context 'bulk pricing' do
-    let(:rules) { [Rules::BulkPrice.new(3, 4.50.to_d, "SR1")] }
+    let(:rules) { [Rules::BulkPrice.new(start_at: 3, bulk_price: 4.50.to_d, code: "SR1")] }
 
     it 'starts bulk pricing at 3 units' do
       2.times { checkout.scan("SR1") }

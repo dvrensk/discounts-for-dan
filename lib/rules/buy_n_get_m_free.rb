@@ -1,6 +1,6 @@
 module Rules
   class BuyNGetMFree
-    def initialize(n, m, code)
+    def initialize(n:, m:, code:)
       @n, @m, @code = n, m, code.freeze
     end
 
