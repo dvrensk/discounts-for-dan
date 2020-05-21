@@ -6,8 +6,6 @@ module Rules
 
     attr_reader :start_at, :drop_to, :code
 
-    Discount = Struct.new(:amount, :items)
-
     def generate_discounts(items)
       # Use === for matching to allow regexen as well as strings
       matching = items.select { |i| code === i.code }
