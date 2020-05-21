@@ -11,31 +11,16 @@ describe Checkout do
   let(:checkout) { Checkout.new(rules) }
   let(:rules) { [] }
 
-  describe '.new' do
-    it 'creates an instance, given rules' do
-      expect(checkout).to be_a Checkout
-    end
-  end
-
   describe '#scan' do
-    it 'accepts known product codes' do
-      expect { checkout.scan("GR1") }.not_to raise_error
-    end
-
     it 'complains about unknown codes' do
       expect { checkout.scan("XX1") }.to raise_error(KeyError)
     end
   end
 
-  describe '#total' do
-    it 'does addition' do
-      checkout.scan("GR1")
-      checkout.scan("SR1")
-      expect(checkout.total).to eq 8.11.to_d
-    end
-  end
-
+  # * The CEO is a big fan of buy-one-get-one-free offers and of green
+  # tea. He wants us to add a rule to do this.
   let(:tea_rule) { Rules::BuyNGetMFree.new(n: 1, m: 1, code: "GR1") }
+
   context 'buy 1 get 1 free' do
     let(:rules) { [tea_rule] }
 
@@ -54,6 +39,7 @@ describe Checkout do
   # strawberries to get a price discount for bulk purchases. If
   # you buy 3 or more strawberries, the price should drop to £4.50
   let(:strawberries_rule) { Rules::BulkPrice.new(start_at: 3, drop_to: 4.50.to_d, code: "SR1") }
+
   context 'bulk pricing' do
     let(:rules) { [strawberries_rule] }
 
@@ -69,6 +55,7 @@ describe Checkout do
   # the price of all coffees should drop to two thirds of the
   # original price.
   let(:coffee_rule) { Rules::BulkPrice.new(start_at: 3, drop_to: 2.to_r/3, code: "CF1") }
+
   context 'bulk pricing with fractions' do
     let(:rules) { [coffee_rule] }
 
