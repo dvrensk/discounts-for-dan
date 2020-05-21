@@ -13,7 +13,13 @@ module Rules
       matching = items.select { |i| code === i.code }
       return [] unless matching.size >= start_at
 
-      matching.map { |i| Discount.new(i.price - drop_to, i) }
+      if drop_to.is_a? Rational
+        full_price = matching.sum(&:price)
+        drop = 1 - drop_to
+        Discount.new(full_price * drop.numerator / drop.denominator, matching)
+      else
+        matching.map { |i| Discount.new(i.price - drop_to, i) }
+      end
     end
   end
 end
